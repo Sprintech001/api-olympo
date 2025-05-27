@@ -1,5 +1,5 @@
 ### Teste de Login com credenciais válidas
-POST http://localhost:5217/api/auth/login
+POST http://127.0.0.1:5217/api/auth/login
 Content-Type: application/json
 
 {
@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ### Teste de Login com credenciais inválidas
-POST http://localhost:5217/api/auth/login
+POST http://127.0.0.1:5217/api/auth/login
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### Teste de Login com usuário inexistente
-POST http://localhost:5217/api/auth/login
+POST http://127.0.0.1:5217/api/auth/login
 Content-Type: application/json
 
 {

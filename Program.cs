@@ -70,6 +70,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 {
     options.User.AllowedUserNameCharacters =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ "; 
+    options.User.RequireUniqueEmail = true; 
 });
 
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
@@ -91,7 +92,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.WebHost.UseUrls("http://0.0.0.0:5000");
+builder.WebHost.UseUrls("http://0.0.0.0:5001");
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

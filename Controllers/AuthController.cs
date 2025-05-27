@@ -125,25 +125,18 @@ public class AuthController : ControllerBase
                 return BadRequest("O CPF informado já está em uso.");
             }
 
-            var userRecord = new User
+            if (request.Type == null || !Enum.IsDefined(typeof(UserType), request.Type))
             {
-                Name = request.Username,
-                Email = request.Email,
-                CPF = request.CPF,
-                Phone = request.Phone,
-                BirthDate = request.BirthDate,
-                Type = request.Type ?? UserType.Aluno
-            };
+                _logger.LogWarning("Tipo de usuário inválido ou nulo: {Type}", request.Type);
+                return BadRequest("Tipo de usuário inválido.");
+            }
 
-            _context.Users.Add(userRecord);
-            await _context.SaveChangesAsync();
-            _logger.LogInformation("Usuário salvo na tabela User com ID: {UserId}", userRecord.Id);
+            var userType = (UserType)request.Type;
 
             var applicationUser = new ApplicationUser
             {
                 UserName = request.Username,
-                Email = request.Email,
-                UserId = userRecord.Id
+                Email = request.Email
             };
 
             var result = await _userManager.CreateAsync(applicationUser, request.Password);
@@ -152,6 +145,21 @@ public class AuthController : ControllerBase
                 _logger.LogWarning("Erro ao criar usuário no Identity: {@Errors}", result.Errors);
                 return BadRequest(result.Errors);
             }
+
+            var userRecord = new User
+            {
+                Name = request.Username,
+                Email = request.Email,
+                CPF = request.CPF,
+                Phone = request.Phone,
+                BirthDate = request.BirthDate,
+                Type = userType, 
+                IdentityId = applicationUser.Id
+            };
+
+            _context.Users.Add(userRecord);
+            await _context.SaveChangesAsync();
+            _logger.LogInformation("Usuário salvo na tabela User com ID: {UserId}", userRecord.Id);
 
             _logger.LogInformation("Usuário registrado com sucesso: {Email}", request.Email);
             return Ok("Usuário registrado com sucesso.");
@@ -230,9 +238,9 @@ public class AuthController : ControllerBase
         {
             var users = await _userManager.Users
                 .Include(u => u.User)
-                .ThenInclude(user => user.Gyms)
-                .ThenInclude(gymUser => gymUser.Gym)
-                .Where(u => u.User != null && (int)u.User.Type == type) 
+                .ThenInclude(user => user.Gyms!)
+                .ThenInclude(gymUser => gymUser.Gym!) 
+                .Where(u => u.User != null && u.User.Type.HasValue && (int)u.User.Type == type) 
                 .Select(u => new
                 {
                     IdentityId = u.Id,
@@ -251,7 +259,7 @@ public class AuthController : ControllerBase
                         u.User.ImagePath,
                         Gym = u.User.Gyms != null ? u.User.Gyms.Select(gymUser => new
                         {
-                            gymUser.Gym.Id,
+                            gymUser.Gym!.Id, // Usa operador de nulidade para evitar erros
                             gymUser.Gym.Name,
                             gymUser.Gym.Address,
                             gymUser.Gym.PhoneNumber

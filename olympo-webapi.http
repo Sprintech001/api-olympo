@@ -1,4 +1,4 @@
-@olympo_webapi_HostAddress = http://localhost:5217
+@olympo_webapi_HostAddress = http://127.0.0.1:5217
 
 GET {{olympo_webapi_HostAddress}}/weatherforecast/
 Accept: application/json

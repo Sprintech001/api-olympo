@@ -904,10 +904,3 @@ E:\Sprintech\projects\Olympo\front\prod-olympo-api\obj\Debug\net8.0\refint\olymp
 E:\Sprintech\projects\Olympo\front\prod-olympo-api\obj\Debug\net8.0\olympo-webapi.pdb
 E:\Sprintech\projects\Olympo\front\prod-olympo-api\obj\Debug\net8.0\olympo-webapi.genruntimeconfig.cache
 E:\Sprintech\projects\Olympo\front\prod-olympo-api\obj\Debug\net8.0\ref\olympo-webapi.dll
-E:\Sprintech\projects\Olympo\front\prod-olympo-api\bin\Debug\net8.0\publish\web.config
-E:\Sprintech\projects\Olympo\front\prod-olympo-api\bin\Debug\net8.0\publish\appsettings.Development.json
-E:\Sprintech\projects\Olympo\front\prod-olympo-api\bin\Debug\net8.0\publish\appsettings.json
-E:\Sprintech\projects\Olympo\front\prod-olympo-api\bin\Debug\net8.0\publish\appsettingsProd.json
-E:\Sprintech\projects\Olympo\front\prod-olympo-api\bin\Debug\net8.0\publish\olympo-webapi.deps.json
-E:\Sprintech\projects\Olympo\front\prod-olympo-api\bin\Debug\net8.0\publish\olympo-webapi.runtimeconfig.json
-E:\Sprintech\projects\Olympo\front\prod-olympo-api\bin\Debug\net8.0\publish\olympo-webapi.staticwebassets.endpoints.json

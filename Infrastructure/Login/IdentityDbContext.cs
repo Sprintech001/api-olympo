@@ -6,12 +6,12 @@ using olympo_webapi.Models;
 public class ApplicationUser : IdentityUser
 {
     public int? UserId { get; set; } 
-    public User User { get; set; } 
+    public User? User { get; set; } 
 }
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
-    public DbSet<User> Users { get; set; } 
+    public new DbSet<User> Users { get; set; } 
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -27,6 +27,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithOne()
             .HasForeignKey<ApplicationUser>(au => au.UserId);
 
+        builder.Entity<ApplicationUser>()
+            .HasIndex(au => au.UserName)
+            .IsUnique(false); 
+
         builder.Entity<User>().ToTable("Users");
     }
-}
+};

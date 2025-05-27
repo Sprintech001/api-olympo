@@ -42,7 +42,30 @@ namespace olympo_webapi.Controllers
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] UserExercise userExercise)
         {
+            Console.WriteLine($"Iniciando validação para UserId: {userExercise.UserId}");
+
+            var userExists = await _context.Users.AnyAsync(u => u.Id == userExercise.UserId);
+            Console.WriteLine($"Consulta ao banco para UserId {userExercise.UserId}: {userExists}");
+
+            if (!userExists)
+            {
+                Console.WriteLine($"Usuário com ID {userExercise.UserId} não encontrado no banco de dados.");
+                return BadRequest($"Usuário com ID {userExercise.UserId} não encontrado.");
+            }
+
+            var exerciseExists = await _context.Exercises.AnyAsync(e => e.Id == userExercise.ExerciseId);
+            Console.WriteLine($"Consulta ao banco para ExerciseId {userExercise.ExerciseId}: {exerciseExists}");
+
+            if (!exerciseExists)
+            {
+                Console.WriteLine($"Exercício com ID {userExercise.ExerciseId} não encontrado no banco de dados.");
+                return BadRequest($"Exercício com ID {userExercise.ExerciseId} não encontrado.");
+            }
+
+            Console.WriteLine("Adicionando UserExercise ao banco de dados.");
             await _userExerciseRepository.AddAsync(userExercise);
+            Console.WriteLine("UserExercise adicionado com sucesso.");
+
             return Created("", userExercise);
         }
 
