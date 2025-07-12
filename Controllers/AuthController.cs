@@ -168,6 +168,9 @@ public class AuthController : ControllerBase
             await _context.SaveChangesAsync();
             _logger.LogInformation("Usuário salvo na tabela User com ID: {UserId}", userRecord.Id);
 
+            applicationUser.UserId = userRecord.Id;
+            await _userManager.UpdateAsync(applicationUser);
+
             _logger.LogInformation("Usuário registrado com sucesso: {Email}", request.Email);
             return Ok("Usuário registrado com sucesso.");
         }

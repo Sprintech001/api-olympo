@@ -25,7 +25,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<ApplicationUser>()
             .HasOne(au => au.User)
             .WithOne()
-            .HasForeignKey<ApplicationUser>(au => au.UserId);
+            .HasForeignKey<ApplicationUser>(au => au.UserId)
+            .IsRequired(false);
 
         builder.Entity<ApplicationUser>()
             .HasIndex(au => au.UserName)
