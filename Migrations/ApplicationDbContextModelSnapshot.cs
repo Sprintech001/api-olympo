@@ -2,20 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using olympo_webapi.Infrastructure;
 
 #nullable disable
 
-namespace olympo_webapi.Migrations.ApplicationDb
+namespace olympo_webapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250712152307_Initial")]
-    partial class Initial
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,78 +21,6 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.HasIndex("UserName");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -228,6 +154,78 @@ namespace olympo_webapi.Migrations.ApplicationDb
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("olympo_webapi.Infrastructure.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.HasIndex("UserName");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("olympo_webapi.Models.Exercise", b =>
                 {
                     b.Property<int>("Id")
@@ -237,13 +235,17 @@ namespace olympo_webapi.Migrations.ApplicationDb
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("VideoPath")
                         .HasColumnType("text");
@@ -262,55 +264,61 @@ namespace olympo_webapi.Migrations.ApplicationDb
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Code")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
 
                     b.Property<string>("Website")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Gym");
+                    b.ToTable("Gyms", (string)null);
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.GymUser", b =>
                 {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("GymId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("GymId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "GymId");
 
                     b.HasIndex("GymId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("GymUser");
+                    b.ToTable("GymUsers", (string)null);
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.Session", b =>
@@ -348,7 +356,7 @@ namespace olympo_webapi.Migrations.ApplicationDb
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Session");
+                    b.ToTable("Sessions", (string)null);
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.User", b =>
@@ -392,34 +400,20 @@ namespace olympo_webapi.Migrations.ApplicationDb
 
             modelBuilder.Entity("olympo_webapi.Models.UserExercise", b =>
                 {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ExerciseId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "ExerciseId");
 
                     b.HasIndex("ExerciseId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserExercise");
-                });
-
-            modelBuilder.Entity("ApplicationUser", b =>
-                {
-                    b.HasOne("olympo_webapi.Models.User", "User")
-                        .WithOne()
-                        .HasForeignKey("ApplicationUser", "UserId");
-
-                    b.Navigation("User");
+                    b.ToTable("UserExercises", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -433,7 +427,7 @@ namespace olympo_webapi.Migrations.ApplicationDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("ApplicationUser", null)
+                    b.HasOne("olympo_webapi.Infrastructure.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -442,7 +436,7 @@ namespace olympo_webapi.Migrations.ApplicationDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("ApplicationUser", null)
+                    b.HasOne("olympo_webapi.Infrastructure.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -457,7 +451,7 @@ namespace olympo_webapi.Migrations.ApplicationDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ApplicationUser", null)
+                    b.HasOne("olympo_webapi.Infrastructure.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -466,22 +460,35 @@ namespace olympo_webapi.Migrations.ApplicationDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("ApplicationUser", null)
+                    b.HasOne("olympo_webapi.Infrastructure.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("olympo_webapi.Infrastructure.ApplicationUser", b =>
+                {
+                    b.HasOne("olympo_webapi.Models.User", "User")
+                        .WithOne()
+                        .HasForeignKey("olympo_webapi.Infrastructure.ApplicationUser", "UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("olympo_webapi.Models.GymUser", b =>
                 {
                     b.HasOne("olympo_webapi.Models.Gym", "Gym")
                         .WithMany("GymUsers")
-                        .HasForeignKey("GymId");
+                        .HasForeignKey("GymId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("olympo_webapi.Models.User", "User")
                         .WithMany("Gyms")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Gym");
 
@@ -497,8 +504,9 @@ namespace olympo_webapi.Migrations.ApplicationDb
                         .IsRequired();
 
                     b.HasOne("olympo_webapi.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithMany("Sessions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Exercise");
 
@@ -509,11 +517,15 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 {
                     b.HasOne("olympo_webapi.Models.Exercise", "Exercise")
                         .WithMany("Users")
-                        .HasForeignKey("ExerciseId");
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("olympo_webapi.Models.User", "User")
                         .WithMany("Exercises")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Exercise");
 
@@ -537,6 +549,8 @@ namespace olympo_webapi.Migrations.ApplicationDb
                     b.Navigation("Exercises");
 
                     b.Navigation("Gyms");
+
+                    b.Navigation("Sessions");
                 });
 #pragma warning restore 612, 618
         }

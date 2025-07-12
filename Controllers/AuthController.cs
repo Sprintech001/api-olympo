@@ -12,6 +12,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.Json;
 using olympo_webapi.Services;
+using olympo_webapi.Infrastructure;
+
 
 [ApiController]
 [Route("api/[controller]")]

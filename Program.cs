@@ -77,7 +77,12 @@ builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IGymRepository, GymRepository>();
 builder.Services.AddScoped<IGymUserRepository, GymUserRepository>();
 builder.Services.AddScoped<IUserExerciseRepository, UserExerciseRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>(sp =>
+{
+    var context = sp.GetRequiredService<ConnectionContext>();
+    var userManager = sp.GetRequiredService<UserManager<ApplicationUser>>();
+    return new UserRepository(context, userManager);
+});
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IGetFileServices, GetFileServices>();

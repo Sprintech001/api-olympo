@@ -3,18 +3,21 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+namespace olympo_webapi.Infrastructure
 {
-    public ApplicationDbContext CreateDbContext(string[] args)
+    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
+        public ApplicationDbContext CreateDbContext(string[] args)
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
 
-        var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
 
-        return new ApplicationDbContext(optionsBuilder.Options);
+            return new ApplicationDbContext(optionsBuilder.Options);
+        }
     }
 }

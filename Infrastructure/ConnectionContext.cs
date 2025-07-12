@@ -35,7 +35,7 @@ namespace olympo_webapi.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
-            // modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<User>().ToTable("Users");
 
             modelBuilder.Entity<Gym>(entity =>
             {
@@ -105,9 +105,9 @@ namespace olympo_webapi.Infrastructure
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(s => s.User)
-                    .WithMany()
+                    .WithMany(u => u.Sessions)
                     .HasForeignKey(s => s.UserId)
-                    .OnDelete(DeleteBehavior.SetNull);
+                    .OnDelete(DeleteBehavior.Cascade); 
             });
         }
     }

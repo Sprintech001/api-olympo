@@ -37,5 +37,8 @@ namespace olympo_webapi.Models
 
         [JsonIgnore]
         public ICollection<UserExercise>? Exercises { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Session>? Sessions { get; set; }
     }
 }

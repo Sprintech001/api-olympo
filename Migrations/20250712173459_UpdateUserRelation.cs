@@ -4,10 +4,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace olympo_webapi.Migrations.ApplicationDb
+namespace olympo_webapi.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class UpdateUserRelation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,8 +32,8 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     ImagePath = table.Column<string>(type: "text", nullable: true),
                     VideoPath = table.Column<string>(type: "text", nullable: true)
                 },
@@ -43,23 +43,23 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Gym",
+                name: "Gyms",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Code = table.Column<string>(type: "text", nullable: true),
-                    Address = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    Website = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    ImageUrl = table.Column<string>(type: "text", nullable: true)
+                    Address = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
+                    Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Website = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    ImageUrl = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Gym", x => x.Id);
+                    table.PrimaryKey("PK_Gyms", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -135,31 +135,32 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "GymUser",
+                name: "GymUsers",
                 columns: table => new
                 {
+                    GymId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
                     Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    GymId = table.Column<int>(type: "integer", nullable: true),
-                    UserId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GymUser", x => x.Id);
+                    table.PrimaryKey("PK_GymUsers", x => new { x.UserId, x.GymId });
                     table.ForeignKey(
-                        name: "FK_GymUser_Gym_GymId",
+                        name: "FK_GymUsers_Gyms_GymId",
                         column: x => x.GymId,
-                        principalTable: "Gym",
-                        principalColumn: "Id");
+                        principalTable: "Gyms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GymUser_Users_UserId",
+                        name: "FK_GymUsers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Session",
+                name: "Sessions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -174,42 +175,44 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Session", x => x.Id);
+                    table.PrimaryKey("PK_Sessions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Session_Exercises_ExerciseId",
+                        name: "FK_Sessions_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
                         principalTable: "Exercises",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Session_Users_UserId",
+                        name: "FK_Sessions_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserExercise",
+                name: "UserExercises",
                 columns: table => new
                 {
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    ExerciseId = table.Column<int>(type: "integer", nullable: false),
                     Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: true),
-                    ExerciseId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserExercise", x => x.Id);
+                    table.PrimaryKey("PK_UserExercises", x => new { x.UserId, x.ExerciseId });
                     table.ForeignKey(
-                        name: "FK_UserExercise_Exercises_ExerciseId",
+                        name: "FK_UserExercises_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
                         principalTable: "Exercises",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserExercise_Users_UserId",
+                        name: "FK_UserExercises_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -346,34 +349,24 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_GymUser_GymId",
-                table: "GymUser",
+                name: "IX_GymUsers_GymId",
+                table: "GymUsers",
                 column: "GymId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GymUser_UserId",
-                table: "GymUser",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Session_ExerciseId",
-                table: "Session",
+                name: "IX_Sessions_ExerciseId",
+                table: "Sessions",
                 column: "ExerciseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Session_UserId",
-                table: "Session",
+                name: "IX_Sessions_UserId",
+                table: "Sessions",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserExercise_ExerciseId",
-                table: "UserExercise",
+                name: "IX_UserExercises_ExerciseId",
+                table: "UserExercises",
                 column: "ExerciseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserExercise_UserId",
-                table: "UserExercise",
-                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -395,13 +388,13 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "GymUser");
+                name: "GymUsers");
 
             migrationBuilder.DropTable(
-                name: "Session");
+                name: "Sessions");
 
             migrationBuilder.DropTable(
-                name: "UserExercise");
+                name: "UserExercises");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -410,7 +403,7 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Gym");
+                name: "Gyms");
 
             migrationBuilder.DropTable(
                 name: "Exercises");
