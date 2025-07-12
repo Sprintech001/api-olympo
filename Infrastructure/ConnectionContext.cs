@@ -82,6 +82,7 @@ namespace olympo_webapi.Infrastructure
 
             modelBuilder.Entity<Exercise>(entity =>
             {
+                entity.ToTable("Exercises");
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(100);

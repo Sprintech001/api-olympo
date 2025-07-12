@@ -47,11 +47,11 @@ public class AuthController : ControllerBase
         Console.WriteLine("\n");
 
         if (appUser == null)
-            return Unauthorized("caso 1");
+            return Unauthorized("Usuário ou senha inválidos.");
 
         var result = await _signInManager.CheckPasswordSignInAsync(appUser, request.Password, false);
         if (!result.Succeeded)
-            return Unauthorized("caso 2.");
+            return Unauthorized("Usuário ou senha inválidos.");
 
         var user = await _context.Users.FirstOrDefaultAsync(u => u.IdentityId == appUser.Id);
 
