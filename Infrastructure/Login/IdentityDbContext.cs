@@ -31,6 +31,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasIndex(au => au.UserName)
             .IsUnique(false); 
 
+        builder.Entity<Exercise>().ToTable("Exercises");
+
         builder.Entity<User>().ToTable("Users");
     }
 };

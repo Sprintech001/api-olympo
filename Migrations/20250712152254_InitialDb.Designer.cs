@@ -12,7 +12,7 @@ using olympo_webapi.Infrastructure;
 namespace olympo_webapi.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20250712055044_InitialDb")]
+    [Migration("20250712152254_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -194,7 +194,7 @@ namespace olympo_webapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.UserExercise", b =>

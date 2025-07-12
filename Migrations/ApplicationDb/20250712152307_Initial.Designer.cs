@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace olympo_webapi.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250712055101_Initial")]
+    [Migration("20250712152307_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -250,7 +250,7 @@ namespace olympo_webapi.Migrations.ApplicationDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("Exercise");
+                    b.ToTable("Exercises", (string)null);
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.Gym", b =>

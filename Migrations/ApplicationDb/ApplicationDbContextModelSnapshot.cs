@@ -247,7 +247,7 @@ namespace olympo_webapi.Migrations.ApplicationDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("Exercise");
+                    b.ToTable("Exercises", (string)null);
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.Gym", b =>

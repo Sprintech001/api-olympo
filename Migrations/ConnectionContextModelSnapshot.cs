@@ -191,7 +191,7 @@ namespace olympo_webapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.UserExercise", b =>

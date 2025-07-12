@@ -27,7 +27,7 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exercise",
+                name: "Exercises",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -39,7 +39,7 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exercise", x => x.Id);
+                    table.PrimaryKey("PK_Exercises", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -176,9 +176,9 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 {
                     table.PrimaryKey("PK_Session", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Session_Exercise_ExerciseId",
+                        name: "FK_Session_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
-                        principalTable: "Exercise",
+                        principalTable: "Exercises",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -201,9 +201,9 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 {
                     table.PrimaryKey("PK_UserExercise", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserExercise_Exercise_ExerciseId",
+                        name: "FK_UserExercise_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
-                        principalTable: "Exercise",
+                        principalTable: "Exercises",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UserExercise_Users_UserId",
@@ -413,7 +413,7 @@ namespace olympo_webapi.Migrations.ApplicationDb
                 name: "Gym");
 
             migrationBuilder.DropTable(
-                name: "Exercise");
+                name: "Exercises");
 
             migrationBuilder.DropTable(
                 name: "Users");
