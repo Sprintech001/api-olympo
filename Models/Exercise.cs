@@ -25,9 +25,10 @@ namespace olympo_webapi.Models
         public IFormFile? Video { get; set; }
 
         [JsonIgnore]
-        public ICollection<UserExercise>? Users { get; set; }
+        public ICollection<UserExercise>? Users { get; set; } = new List<UserExercise>();
         
         [JsonIgnore]
-        public ICollection<Session>? Sessions { get; set; }
+        public virtual ICollection<Session> Sessions { get; set; } = new List<Session>();
+
     }
 }

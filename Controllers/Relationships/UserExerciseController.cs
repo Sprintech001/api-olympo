@@ -103,5 +103,20 @@ namespace olympo_webapi.Controllers
 
             return Ok(sessions);
         }
+
+        [HttpGet("sessions")]
+        public async Task<IActionResult> GetSessionsByUserAndExercise([FromQuery] int userId, [FromQuery] int exerciseId)
+        {
+            var sessions = await _context.Sessions
+                .Where(s => s.UserId == userId && s.ExerciseId == exerciseId)
+                .Include(s => s.Exercise)
+                .Include(s => s.User)
+                .ToListAsync();
+
+            if (sessions == null || sessions.Count == 0)
+                return NotFound();
+
+            return Ok(sessions);
+        }
     }
 }

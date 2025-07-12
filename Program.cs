@@ -101,8 +101,8 @@ builder.WebHost.UseUrls("http://0.0.0.0:5001");
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-    options.JsonSerializerOptions.MaxDepth = 64;
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 

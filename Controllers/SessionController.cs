@@ -10,9 +10,9 @@ namespace olympo_webapi.Controllers
 	public class SessionController : ControllerBase
 	{
 		private readonly ISessionRepository _sessionRepository;
-		private readonly ConnectionContext _context;
+		private readonly ApplicationDbContext _context;
 
-		public SessionController(ISessionRepository sessionRepository, ConnectionContext context)
+		public SessionController(ISessionRepository sessionRepository, ApplicationDbContext context)
 		{
 			_sessionRepository = sessionRepository;
 			_context = context;
@@ -51,16 +51,21 @@ namespace olympo_webapi.Controllers
 		public async Task<IActionResult> Post([FromBody] Session session)
 		{
 			if (session == null)
-			{
 				return BadRequest("Session data is required.");
-			}
 
 			await _sessionRepository.AddAsync(session);
-			await _context.Entry(session).Reference(s => s.User).LoadAsync();
-			await _context.Entry(session).Reference(s => s.Exercise).LoadAsync();
 
-			return CreatedAtAction(nameof(GetSessionById), new { id = session.Id }, session);
+			var sessionWithRelations = await _context.Sessions
+				.Include(s => s.User)
+				.Include(s => s.Exercise)
+				.FirstOrDefaultAsync(s => s.Id == session.Id);
+
+			if (sessionWithRelations == null)
+				return NotFound("Session not found after insert.");
+
+			return CreatedAtAction(nameof(GetSessionById), new { id = sessionWithRelations.Id }, sessionWithRelations);
 		}
+
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> Put(int id, [FromBody] Session? updatedSession)

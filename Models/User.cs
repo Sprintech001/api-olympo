@@ -36,9 +36,9 @@ namespace olympo_webapi.Models
         public ICollection<GymUser>? Gyms { get; set; }
 
         [JsonIgnore]
-        public ICollection<UserExercise>? Exercises { get; set; }
+        public ICollection<UserExercise>? Exercises { get; set; } = new List<UserExercise>();
 
         [JsonIgnore]
-        public ICollection<Session>? Sessions { get; set; }
+        public ICollection<Session>? Sessions { get; set; } = new List<Session>();
     }
 }
