@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using System.Linq;
+using System.Text.Json;
 using olympo_webapi.Services;
 
 [ApiController]
@@ -40,14 +40,21 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
 
         var appUser = await _userManager.FindByEmailAsync(request.Username);
+        
+        var json = JsonSerializer.Serialize(appUser);
+        Console.WriteLine("\n");
+        Console.WriteLine(json);
+        Console.WriteLine("\n");
+
         if (appUser == null)
-            return Unauthorized("Usuário ou senha inválidos.");
+            return Unauthorized("caso 1");
 
         var result = await _signInManager.CheckPasswordSignInAsync(appUser, request.Password, false);
         if (!result.Succeeded)
-            return Unauthorized("Usuário ou senha inválidos.");
+            return Unauthorized("caso 2.");
 
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == appUser.UserId);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.IdentityId == appUser.Id);
+
         if (user == null)
             return NotFound("Dados do usuário não encontrados.");
 
@@ -259,7 +266,7 @@ public class AuthController : ControllerBase
                         u.User.ImagePath,
                         Gym = u.User.Gyms != null ? u.User.Gyms.Select(gymUser => new
                         {
-                            gymUser.Gym!.Id, // Usa operador de nulidade para evitar erros
+                            gymUser.Gym!.Id, 
                             gymUser.Gym.Name,
                             gymUser.Gym.Address,
                             gymUser.Gym.PhoneNumber
@@ -268,10 +275,10 @@ public class AuthController : ControllerBase
                 })
                 .ToListAsync();
 
-            if (!users.Any())
-            {
-                return NotFound("Nenhum usuário encontrado para o tipo especificado.");
-            }
+            // if (!users.Any())
+            // {
+            //     return NotFound("Nenhum usuário encontrado para o tipo especificado.");
+            // }
 
             return Ok(users);
         }

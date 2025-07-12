@@ -42,6 +42,17 @@ namespace olympo_webapi.Controllers
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] UserExercise userExercise)
         {
+            Console.WriteLine($"Recebido: UserId={userExercise.UserId}, ExerciseId={userExercise.ExerciseId}");
+
+            if (userExercise.UserId == null || userExercise.ExerciseId == null)
+            {
+                Console.WriteLine("UserId ou ExerciseId nulo!");
+                return BadRequest("UserId e ExerciseId são obrigatórios.");
+            }
+
+            userExercise.User = null;
+            userExercise.Exercise = null;
+
             Console.WriteLine($"Iniciando validação para UserId: {userExercise.UserId}");
 
             var userExists = await _context.Users.AnyAsync(u => u.Id == userExercise.UserId);

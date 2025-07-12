@@ -88,6 +88,8 @@ namespace olympo_webapi.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
+                    b.HasIndex("UserName");
+
                     b.ToTable("AspNetUsers", (string)null);
                 });
 

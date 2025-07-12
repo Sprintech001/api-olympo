@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace olympo_webapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250502154945_Initial")]
-    partial class Initial
+    [Migration("20250711021838_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,6 +90,8 @@ namespace olympo_webapi.Migrations
 
                     b.HasIndex("UserId")
                         .IsUnique();
+
+                    b.HasIndex("UserName");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });

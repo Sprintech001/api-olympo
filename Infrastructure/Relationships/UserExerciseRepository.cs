@@ -52,7 +52,8 @@ public class UserExerciseRepository : IUserExerciseRepository
     public async Task AddAsync(UserExercise userExercise)
     {
         await _context.UserExercises.AddAsync(userExercise);
-        await _context.SaveChangesAsync();
+        var result = await _context.SaveChangesAsync();
+        Console.WriteLine($"UserExercise salvo no banco. Linhas afetadas: {result}");
     }
 
     public async Task<bool> ExistsAsync(int id)

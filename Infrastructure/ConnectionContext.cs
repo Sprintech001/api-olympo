@@ -35,7 +35,7 @@ namespace olympo_webapi.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>().ToTable("ConnectionUsers");
+            modelBuilder.Entity<User>().ToTable("Users");
 
             modelBuilder.Entity<Gym>(entity =>
             {
